@@ -36,7 +36,4 @@
   
   function update(){
   }
-  
-  private function validate(){
-  }
 }
