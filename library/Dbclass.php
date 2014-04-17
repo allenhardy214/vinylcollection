@@ -113,7 +113,7 @@
     return $required;
   }
   
-  private functions getFieldDefaults()
+  private function getFieldDefaults()
   {
     $defaults = array();
     
@@ -320,7 +320,8 @@
       }
     }
     
-    if(empty($fields){
+    if(empty($fields))
+    {
       return false;
     }
     
