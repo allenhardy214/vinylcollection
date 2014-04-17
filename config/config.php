@@ -1,4 +1,6 @@
 <?
+date_default_timezone_set("Europe/London");
+
 define('DEV',true);
 
 define('DB_NAME','vinyl');
