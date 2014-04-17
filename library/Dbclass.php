@@ -279,6 +279,15 @@
     }
   }
   
+  public function delete($id)
+  {
+    $sql = "DELETE FROM `{$this->table}` WHERE `{$this->primary}`=:{$this->primary}";
+    $this->query($sql);
+    $this->bind($this->primary,$id);
+    
+    return true;
+  }
+  
   public function get(){
   }
   
