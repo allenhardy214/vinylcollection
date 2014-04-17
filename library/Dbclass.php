@@ -101,7 +101,7 @@
       $field_list = implode(",",$select_columns);
     }
     
-    if($limit==false && $offset==false){
+    if($limit===false && $offset===false){
       $query = "SELECT {$field_list} FROM `{$this->table}` ";
     }
     else{
@@ -113,7 +113,7 @@
     if(!empty($conditions)){
       foreach(array_keys($conditions) as $field){
         if(isset($this->fields[$field])){
-          $valid_conditions[] = "`{$field}`=:{$field} ";
+          $valid_conditions[$field] = "`{$field}`=:{$field} ";
         }
       }
       
@@ -149,9 +149,24 @@
       $query.= " ORDER BY ".implode(",",$valid_order)." {$direction} ";
     }
     
-    if($limit!=false && $offset!=false){
+    if($limit!==false && $offset!==false){
       $query = " LIMIT :limit OFFSET :offset";
     }
+    
+    $this->query($query);
+    
+    foreach(array_keys($valid_conditions) as $condition)
+    {
+      $this->bind($condition,$conditons[$condition],$this->fields[$condition]['type']);
+    }
+    
+    if($limit!==false && $offset!==false)
+    {
+      $this->bind('limit',$limit);
+      $this->bind('offset',$offset);
+    }
+    
+    return $this->results;
   }
   
   public function get(){
