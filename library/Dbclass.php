@@ -72,6 +72,9 @@
     return $all_rows;
   }
   
+  public function getWhere($columns=array(),$conditions=array(),$order=array(),$direction='ASC',$limit=false,$offset=false){
+  }
+  
   public function get(){
   }
   
