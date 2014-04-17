@@ -81,7 +81,7 @@
     return $all_rows;
   }
   
-  public function getWhere($columns=array(),$conditions=array(),$order=array(),$direction='ASC',$limit=false,$offset=false){
+  public function getWhere($columns=array(),$conditions=array(),$order=array(),$direction='ASC',$limit=false,$offset=false,$model=true){
     
     $select_columns = array();
     
@@ -166,7 +166,14 @@
       $this->bind('offset',$offset);
     }
     
-    return $this->results;
+    if($model==true)
+    {
+      return $this->models();
+    }
+    else
+    {
+      return $this->results();
+    }
   }
   
   public function get(){
