@@ -2,6 +2,8 @@
   protected $model;
   protected $table;
   
+  protected $foreignFields = array();
+  
   public function __construct(){
     $this->model = get_class($this);
     $this->table = str_replace("model","",strtolower($this->model));
