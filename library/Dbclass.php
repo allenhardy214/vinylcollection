@@ -4,6 +4,7 @@
   protected $model;
   protected $table;
   protected $fields = array();
+  protected $primary;
   
   private $error;
   private $stmt;
@@ -40,6 +41,10 @@
         'default'=>$row['Default'],
         'type'=>$this->determineType($row['Type'])
       );
+      
+      if($row['Key']=='PRI'){
+        $this->primary = $row['Field'];
+      }
     }
   }
   
@@ -79,6 +84,89 @@
     $all_rows = $this->models();
     
     return $all_rows;
+  }
+  
+  private function getRequiredFields($include_primary=false)
+  {
+    $required = array();
+    
+    foreach($this->fields as $k=>$values){
+      if($values['required']==true){
+        
+        if($values['is_primary_key']){
+          if($include_primary==true){
+            $required[$k] = $values;
+          }
+        }
+        else{
+          $required[$k] = true;
+        }
+      }
+    }
+    
+    return $required;
+  }
+  
+  private functions getFieldDefaults()
+  {
+    $defaults = array();
+    
+    foreach($this->fields as $k=>$v)
+    {
+      $defaults[$k] = $v['default'];
+    }
+  }
+  
+  public function insert($data=array())
+  {
+    $required = $this->getRequiredFields();
+    $defaults = $this->getFieldDefaults();
+    
+    foreach($required as $k=>$v)
+    {
+      if(!isset($data[$k]))
+      {
+        if($defaults[$k]===false)
+        {
+          return false;
+        }
+        else
+        {
+          $data[$k] = $defaults[$k];
+        }
+      }
+    }
+    
+    if(isset($data[$this->primary]))
+    {
+      unset($data[$this->primary]);
+    }
+    
+    $keys = array_keys($data);
+    
+    $columns = $placeholders = array();
+    
+    foreach($keys as $key){
+      $columns[] = "`{$key}`";
+      $placeholders[] = ":{$key}";
+    }
+    
+    $fields = implode(",",$columns);
+    $place = implode(",",$placeholders);
+    
+    $sql = "INSERT INTO {$this->table} ({$fields}) VALUES ({$place});";
+    $this->query($sql);
+    
+    foreach($data as $k=>$v)
+    {
+      if(in_array($k,$keys))
+      {
+        $this->bind($k,$v);
+      }
+    }
+    
+    $this->execute();
+    return $this->lastInsertId();
   }
   
   public function getWhere($columns=array(),$conditions=array(),$order=array(),$direction='ASC',$limit=false,$offset=false,$model=true){
@@ -238,8 +326,6 @@
   function getError(){
   }
   
-  function insert(){
-  }
   
   function update(){
   }
