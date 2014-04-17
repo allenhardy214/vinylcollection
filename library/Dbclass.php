@@ -285,7 +285,12 @@
     $this->query($sql);
     $this->bind($this->primary,$id);
     
-    return true;
+    if($this->stmt->rowCount()>0)
+    {
+      return true;
+    }
+    
+    return false;
   }
   
   public function get(){
