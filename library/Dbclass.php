@@ -279,11 +279,50 @@
     }
   }
   
+  public function update($data=array())
+  {
+    if(empty($data))
+    {
+      return false;
+    }
+    
+    if(!isset($data[$this->primary]))
+    {
+      return false;
+    }
+    
+    $fields = array();
+    
+    foreach($data as $k=>$v)
+    {
+      if($k!=$this->primary)
+      {
+        $fields[$k] = " `{$k}`=:{$k} ";
+      }
+    }
+    
+    if(empty($fields){
+      return false;
+    }
+    
+    $fields_to_update = implode(",",$fields);
+    
+    $sql = "UPDATE {$this->table} SET {$fields_to_update} WHERE `{$this->primary}`={$data[$this->primary]}";
+    $this->query($sql);
+    
+    foreach($data as $k=>$v){
+      $this->bind($k,$v);
+    }
+    
+    return $this->execute();
+  }
+  
   public function delete($id)
   {
     $sql = "DELETE FROM `{$this->table}` WHERE `{$this->primary}`=:{$this->primary}";
     $this->query($sql);
     $this->bind($this->primary,$id);
+    $this->execute();
     
     if($this->stmt->rowCount()>0)
     {
@@ -292,6 +331,8 @@
     
     return false;
   }
+  
+  
   
   public function get(){
   }
@@ -355,7 +396,4 @@
   function getError(){
   }
   
-  
-  function update(){
-  }
 }
