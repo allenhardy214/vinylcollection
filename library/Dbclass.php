@@ -101,14 +101,19 @@
       $field_list = implode(",",$select_columns);
     }
     
-    $query = "SELECT {$field_list} FROM `{$this->table}` ";
+    if($limit==false && $offset==false){
+      $query = "SELECT {$field_list} FROM `{$this->table}` ";
+    }
+    else{
+      $query = "SELECT SQL_CALC_FOUND_ROWS {$field_list} FROM `{$this->table}` ";
+    }
     
     $valid_conditions = array();
     
     if(!empty($conditions)){
       foreach(array_keys($conditions) as $field){
         if(isset($this->fields[$field])){
-          $valid_conditions[] = ":{$field}=? ";
+          $valid_conditions[] = "`{$field}`=:{$field} ";
         }
       }
       
@@ -131,6 +136,22 @@
     
     $query.=$where;
     
+    if(!empty($order)){
+      
+      $valid_order = array();
+      
+      foreach($order as $o){
+        if(isset($this->fields[$o])){
+          $valid_order[] = $o;
+        }
+      }
+      
+      $query.= " ORDER BY ".implode(",",$valid_order)." {$direction} ";
+    }
+    
+    if($limit!=false && $offset!=false){
+      $query = " LIMIT :limit OFFSET :offset";
+    }
   }
   
   public function get(){
