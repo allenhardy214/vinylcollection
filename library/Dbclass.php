@@ -18,10 +18,12 @@
     
     $pdo_string = "mysql:dbname={$dbname};host={$dbhost};port={$dbport};";
     
-    try{
+    try
+    {
       $this->pdo = new PDO($pdo_string,$dbuser,$dbpass,$this->options);
     }
-    catch(PDOException $e){
+    catch(PDOException $e)
+    {
       $this->error = $e->getMessage();
     }
     
@@ -48,7 +50,8 @@
     }
   }
   
-  private function determineType($dbType){
+  private function determineType($dbType)
+  {
     
     $type = explode("(",$dbType);
     $dbType = trim($type[0]);
@@ -65,7 +68,8 @@
     }
   }
   
-  function disconnect(){
+  function disconnect()
+  {
   }
   
   public function getAll(){
@@ -91,9 +95,11 @@
     $required = array();
     
     foreach($this->fields as $k=>$values){
-      if($values['required']==true){
+      if($values['required']==true)
+      {
         
-        if($values['is_primary_key']){
+        if($values['is_primary_key'])
+        {
           if($include_primary==true){
             $required[$k] = $values;
           }
@@ -146,7 +152,8 @@
     
     $columns = $placeholders = array();
     
-    foreach($keys as $key){
+    foreach($keys as $key)
+    {
       $columns[] = "`{$key}`";
       $placeholders[] = ":{$key}";
     }
@@ -188,32 +195,40 @@
     
     $select_columns = array();
     
-    if(!empty($columns)){
-      foreach($columns as $field_name){
+    if(!empty($columns))
+    {
+      foreach($columns as $field_name)
+      {
         
-        if(isset($this->fields[$field_name])){
+        if(isset($this->fields[$field_name]))
+        {
           $select_columns[] = "`{$field_name}`";
         }
       }
     }
     
-    if(empty($select_columns)){
+    if(empty($select_columns))
+    {
       $field_list = ' * ';
     }
-    else{
+    else
+    {
       $field_list = implode(",",$select_columns);
     }
     
-    if($limit===false && $offset===false){
+    if($limit===false && $offset===false)
+    {
       $query = "SELECT {$field_list} FROM `{$this->table}` ";
     }
-    else{
+    else
+    {
       $query = "SELECT SQL_CALC_FOUND_ROWS {$field_list} FROM `{$this->table}` ";
     }
     
     $valid_conditions = array();
     
-    if(!empty($conditions)){
+    if(!empty($conditions))
+    {
       foreach(array_keys($conditions) as $field){
         if(isset($this->fields[$field])){
           $valid_conditions[$field] = "`{$field}`=:{$field} ";
@@ -233,17 +248,20 @@
         $where.= implode(" AND ",$valid_conditions);
       }
     }
-    else{
+    else
+    {
       $where = '';
     }
     
     $query.=$where;
     
-    if(!empty($order)){
+    if(!empty($order))
+    {
       
       $valid_order = array();
       
-      foreach($order as $o){
+      foreach($order as $o)
+      {
         if(isset($this->fields[$o])){
           $valid_order[] = $o;
         }
@@ -252,7 +270,8 @@
       $query.= " ORDER BY ".implode(",",$valid_order)." {$direction} ";
     }
     
-    if($limit!==false && $offset!==false){
+    if($limit!==false && $offset!==false)
+    {
       $query = " LIMIT :limit OFFSET :offset";
     }
     
@@ -310,7 +329,8 @@
     $sql = "UPDATE {$this->table} SET {$fields_to_update} WHERE `{$this->primary}`={$data[$this->primary]}";
     $this->query($sql);
     
-    foreach($data as $k=>$v){
+    foreach($data as $k=>$v)
+    {
       $this->bind($k,$v);
     }
     
@@ -343,8 +363,10 @@
   
   public function bind($param,$value,$type=null){
     
-    if(is_null($type)){
-      switch(true){
+    if(is_null($type))
+    {
+      switch(true)
+      {
         case is_int($value):
           $type = PDO::PARAM_INT;
           break;
@@ -385,7 +407,8 @@
     return $this->stmt->fetch(PDO::FETCH_ASSOC);
   }
   
-  public function rowCount(){
+  public function rowCount()
+  {
     return $this->stmt->rowCount();
   }
   
@@ -393,7 +416,8 @@
     return $this->pdo->lastInsertId();
   }
   
-  function getError(){
+  function getError()
+  {
   }
   
 }
