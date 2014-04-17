@@ -11,6 +11,34 @@
       
   }
   
+  public function resolveForeignKeys()
+  {
+    $fks = array();
+    
+    
+    if(!empty($this->foreignFields))
+    {
+      foreach($this->foreignFields as $key=>$values)
+      {
+        $model = new "{$values['model']}";
+        
+        $models = $model->getModels();
+        
+        $indexed = array();
+        
+        foreach($models as $m)
+        {
+          $indexed[$m->id] = $m;
+          $fks[$key] = $indexed;
+        }
+      }
+      
+      return $fks;
+    }
+    
+    return false;
+  }
+  
   public function getFieldTitles()
   {
     $fields = array_keys($this->fields);
