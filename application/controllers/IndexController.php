@@ -7,14 +7,8 @@
   
   public function index()
   {
-    $records = $this->record->getModels();
-    print_r($records);
+    $this->data['records'] = $this->record->getModels();
+    $this->addView('record_list',$this->data);
     $this->render();
   }
-  
-  public function edit()
-  {
-    
-  }  
-  
 }
