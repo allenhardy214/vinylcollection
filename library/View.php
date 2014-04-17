@@ -8,7 +8,7 @@
   }
   
   public function add($path,$data)
-  {
+  {    
     if($data !==false)
 		{
 			foreach($data as $k=>$v)

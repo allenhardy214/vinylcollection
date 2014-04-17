@@ -8,4 +8,18 @@
     $this->connect(DB_HOST,DB_USER,DB_PASSWORD,DB_NAME,DB_PORT);
       
   }
+  
+  public function getFieldTitles()
+  {
+    $fields = array_keys($this->fields);
+    
+    $titles = array();
+    
+    foreach($fields as $f)
+    {
+      $titles[] = ucfirst($f);
+    }
+    
+    return $titles;
+  }
 }

@@ -10,6 +10,7 @@
   
   protected function addView($path_to_view,$data=array())
   {
+    $data = array('data'=>$data);
     $this->view->add($path_to_view,$data);
   }
   
