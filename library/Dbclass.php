@@ -169,6 +169,21 @@
     return $this->lastInsertId();
   }
   
+  public function getById($id){
+    $conditions = array(
+      $this->primary=>$id
+    );
+    
+    $results = $this->getWhere(array(),$conditions);
+    
+    if(isset($results[0]))
+    {
+      return $results[0];
+    }
+    
+    return false;
+  }
+  
   public function getWhere($columns=array(),$conditions=array(),$order=array(),$direction='ASC',$limit=false,$offset=false,$model=true){
     
     $select_columns = array();
