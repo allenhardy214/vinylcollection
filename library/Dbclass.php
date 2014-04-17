@@ -63,11 +63,20 @@
   function disconnect(){
   }
   
-  function getAll(){
+  public function getAll(){
     $sql = "SELECT * FROM `{$this->table}`";
     $this->query($sql);
     
     $all_rows = $this->results();
+    
+    return $all_rows;
+  }
+  
+  public function getModels(){
+    $sql = "SELECT * FROM `{$this->table}`";
+    $this->query($sql);
+    
+    $all_rows = $this->models();
     
     return $all_rows;
   }
@@ -112,6 +121,12 @@
   {
     $this->execute();
     return $this->stmt->fetchAll(PDO::FETCH_ASSOC);
+  }
+  
+  public function models()
+  {
+    $this->execute();
+    return $this->stmt->fetchAll(PDO::FETCH_CLASS,$this->model);
   }
   
   public function result()

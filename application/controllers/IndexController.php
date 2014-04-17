@@ -7,7 +7,7 @@
   
   public function index()
   {
-    $records = $this->record->getAll();
+    $records = $this->record->getModels();
     print_r($records);
     $this->render();
   }
