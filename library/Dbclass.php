@@ -82,6 +82,55 @@
   }
   
   public function getWhere($columns=array(),$conditions=array(),$order=array(),$direction='ASC',$limit=false,$offset=false){
+    
+    $select_columns = array();
+    
+    if(!empty($columns)){
+      foreach($columns as $field_name){
+        
+        if(isset($this->fields[$field_name])){
+          $select_columns[] = "`{$field_name}`";
+        }
+      }
+    }
+    
+    if(empty($select_columns)){
+      $field_list = ' * ';
+    }
+    else{
+      $field_list = implode(",",$select_columns);
+    }
+    
+    $query = "SELECT {$field_list} FROM `{$this->table}` ";
+    
+    $valid_conditions = array();
+    
+    if(!empty($conditions)){
+      foreach(array_keys($conditions) as $field){
+        if(isset($this->fields[$field])){
+          $valid_conditions[] = ":{$field}=? ";
+        }
+      }
+      
+      if(count($valid_conditions)==0){
+        $where = '';
+      }
+      elseif(count($valid_conditions)==1){
+        $where = "WHERE {$valid_conditions[0]} ";
+      }
+      else{
+        $where = "WHERE {$valid_conditions[0]} ";
+        array_shift($valid_conditions);
+        
+        $where.= implode(" AND ",$valid_conditions);
+      }
+    }
+    else{
+      $where = '';
+    }
+    
+    $query.=$where;
+    
   }
   
   public function get(){
