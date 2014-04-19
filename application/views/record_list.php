@@ -1,3 +1,15 @@
+<div id="controls">
+	<form id="control_form">
+		<fieldset>
+			<legend>Options</legend>
+			<ul>
+				<li><button type="button" class="add-record"><span>Add Record</span></button></li>
+				<li><button type="button" class="login"><span>Login</span></button></li>
+			</ul>
+		</fieldset>
+	</form>
+</div>
+
 <?if(count($data['records'])>0):?>
   <table>
     <tr>
@@ -32,3 +44,8 @@
     <?endforeach;?>
   </table>
 <?endif;?>
+<div class="dialogues">
+
+	<div id="edit_record_dialogue" class="dialogue">Edit Record</div>
+
+</div>
