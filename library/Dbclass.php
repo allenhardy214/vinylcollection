@@ -1,5 +1,5 @@
 <?abstract class Dbclass{
-  static protected $pdo;
+  protected $pdo;
   protected $result;
   protected $model;
   protected $table;
@@ -8,6 +8,10 @@
   
   private $error;
   private $stmt;
+  
+  protected $foreignFields = array();
+  
+  protected $related = false;
   
   private $options = array(
     PDO::ATTR_PERSISTENT => true,
@@ -86,6 +90,20 @@
     $this->query($sql);
     
     $all_rows = $this->models();
+    
+    foreach($all_rows as &$r)
+    {
+		foreach(array_keys($r->fields) as $field)
+		{
+			if($r->related!==false)
+			{
+				if(isset($r->related[$field.'_id'][$r->$field]))
+				{
+					$r->$field = $r->related[$field.'_id'][$r->$field]->name;
+				}
+			}
+		}
+	}
     
     return $all_rows;
   }
@@ -415,6 +433,36 @@
   
   public function lastInsertId(){
     return $this->pdo->lastInsertId();
+  }
+  
+  public function resolveForeignKeys()
+  {
+    $fks = array();
+    
+    
+    if(!empty($this->foreignFields))
+    {
+      foreach($this->foreignFields as $key=>$values)
+      {
+		$m = "{$values['model']}";  
+		  
+        $model = new $m;
+        
+        $models = $model->getModels();
+        
+        $indexed = array();
+        
+        foreach($models as $m)
+        {
+          $indexed[$m->id] = $m;
+          $fks[$key] = $indexed;
+        }
+      }
+      
+      return $fks;
+    }
+    
+    return false;
   }
   
   function getError()

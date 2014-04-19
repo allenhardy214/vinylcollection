@@ -5,7 +5,7 @@
   public function __construct(){
     $this->view = new View();
     
-    $this->addView('header',array('title'=>'test'));
+    $this->addView('header',array('title'=>'Vinyl Collection'));
   }
   
   protected function addView($path_to_view,$data=array())

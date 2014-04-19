@@ -2,6 +2,8 @@
 define('DS', DIRECTORY_SEPARATOR);
 define('ROOT', dirname(__FILE__));
 
+session_start();
+
 require_once (ROOT . DS . 'config' . DS . 'config.php');
 require_once 'library/loader.php';
 
@@ -14,7 +16,7 @@ class Router{
   
   private function route()
   {
-    $url = $_GET['url'];
+    $url = (isset($_GET['url'])) ? $_GET['url'] : '';
     $url = explode("/",$url);
     
     if(count($url)>0)

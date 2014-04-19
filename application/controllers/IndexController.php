@@ -10,6 +10,7 @@
     $this->data['records'] = $this->record->getModels();
     $this->data['field_titles'] = $this->record->getFieldTitles();
     $this->addView('record_list',$this->data);
+    
     $this->render();
   }
 }
