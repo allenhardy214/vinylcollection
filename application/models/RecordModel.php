@@ -9,6 +9,11 @@
     'location_id'=>array('model'=>'LocationModel')
   );
   
+  protected $complexKeys = array(
+    'lk_record_artist'=>array('model'=>'RecordArtistModel','list'=>'ArtistModel'),
+    'lk_record_track'=>array('model'=>'RecordTrackModel','list'=>'TrackModel')
+  );
+  
   public function __construct(){
      parent::__construct();
      
