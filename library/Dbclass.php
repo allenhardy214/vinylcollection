@@ -10,6 +10,7 @@
   private $stmt;
   
   protected $foreignFields = array();
+  protected $complexKeys = array();
   
   protected $related = false;
   
