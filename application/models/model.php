@@ -14,6 +14,10 @@
     
     $this->related = $this->resolveForeignKeys();
     $this->selectOptions = $this->getRelatedOptions();
+    
+    $this->complexKeys = $this->resolveComplexKeys();
+    
+    print_r($this->complexKeys);die();
   }
   
   public function getOptions($key)

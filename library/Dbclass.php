@@ -442,6 +442,27 @@
     return $this->pdo->lastInsertId();
   }
   
+  public function resolveComplexKeys(){
+    
+    $complex = array();
+    
+    foreach($this->complexKeys as $k=>$v)
+    {
+      $m = "{$v['list']}";
+      $model = new $m;
+      $models = $model->getModels();
+      $indexed = array();
+      
+      foreach($models as $m)
+      {
+        $indexed[$m->id] = $m;
+        $complex[$k] = $indexed;
+      }
+    }
+    
+    return $complex;
+  }
+  
   public function resolveForeignKeys()
   {
     $fks = array();
