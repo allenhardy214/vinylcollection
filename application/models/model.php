@@ -6,6 +6,7 @@
   public $options = array();
   public $option_count = 0;
   
+  public $complex = array();
   
   public function __construct(){
     $this->model = get_class($this);
@@ -13,11 +14,9 @@
     $this->connect(DB_HOST,DB_USER,DB_PASSWORD,DB_NAME,DB_PORT);
     
     $this->related = $this->resolveForeignKeys();
+    $this->complex = $this->resolveComplexKeys();
     $this->selectOptions = $this->getRelatedOptions();
     
-    $this->complexKeys = $this->resolveComplexKeys();
-    
-    print_r($this->complexKeys);die();
   }
   
   public function getOptions($key)
@@ -51,6 +50,17 @@
     if(is_array($this->related) && !empty($this->related))
     {
       foreach($this->related as $k=>$rel)
+      {
+        foreach($rel as $key=>$val)
+        {
+          $options[$k].="<option value='{$key}'>{$val->name}</option>";
+        }
+      }
+    }
+    
+    if(is_array($this->complex) && !empty($this->complex))
+    {
+      foreach($this->complex as $k=>$rel)
       {
         foreach($rel as $key=>$val)
         {

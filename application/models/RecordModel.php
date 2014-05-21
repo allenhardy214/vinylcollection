@@ -20,6 +20,8 @@
      $this->options = array(
       array('action'=>'edit','url'=>'/record/edit/'),
       array('action'=>'delete','url'=>'/record/delete/'),
+      array('action'=>'artist','url'=>'/artist/edit'),
+      array('action'=>'track','url'=>'/track/edit')
      );
      
      $this->option_count = count($this->options);

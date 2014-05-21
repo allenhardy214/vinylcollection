@@ -12,6 +12,8 @@
   protected $foreignFields = array();
   protected $complexKeys = array();
   
+  public $complex = array();
+  
   protected $related = false;
   
   private $options = array(
