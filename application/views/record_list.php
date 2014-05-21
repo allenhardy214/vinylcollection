@@ -57,35 +57,48 @@
             <input type="text" name="record_title" value="" />
           </li>
           <li>
-            <label for="record_artist">Artist</label>
-            <input type="text" name="record_artist" value="" />
+            <label for="record_label">Label</label>
+            <select name="record_label">
+              <?=$data['selects']['label_id']?>
+            </select>
           </li>
           <li>
-            <label for="record_title">Label</label>
-            <input type="text" name="record_label" value="" />
+            <label for="record_format">Format</label>
+            <select name="record_format">
+              <?=$data['selects']['format_id']?>
+            </select>
+          </li>
+          <li>
+            <label for="record_rpm">RPM</label>
+            <select name="record_rpm">
+              <?=$data['selects']['rpm_id']?>
+            </select>
+          </li>
+          
+          <li>
+            <label for="record_condition">Condition</label>
+            <select name="record_condition">
+              <?=$data['selects']['condition_id']?>
+            </select>
+          </li>
+          <li>
+            <label for="record_released">Released</label>
+            <input type="text" name="record_released" class="integer minlength4" value=""/>
+          </li>
+          <li>
+            <label for="record_sides">Sides</label>
+            <input type="text" name="record_sides" class="integer" value="" />
           </li>
           <li>
             <label for="record_size">Size</label>
             <select name="record_size">
+              <?=$data['selects']['size_id']?>
             </select>
           </li>
           <li>
-            <label for="record_type">Type</label>
-            <select name="record_type">
-            </select>
-          </li>
-          <li>
-            <label for="record_sides">Sides</label>
-            <select name="record_sides">
-            </select>
-          </li>
-          <li>
-            <label for="record_release">Released</label>
-            <input type="text" name="record_release" class="integer minlength4" value=""/>
-          </li>
-          <li>
-            <label for="record_condition">Sides</label>
-            <select name="record_condition">
+            <label for="record_location">Location</label>
+            <select name="record_location">
+              <?=$data['selects']['location_id']?>
             </select>
           </li>
         </ul>

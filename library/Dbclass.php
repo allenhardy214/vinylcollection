@@ -18,6 +18,8 @@
     PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
   );
   
+  private $selectOptions = array();
+  
   public function connect($dbhost,$dbuser,$dbpass,$dbname,$dbport){
     
     $pdo_string = "mysql:dbname={$dbname};host={$dbhost};port={$dbport};";
@@ -74,6 +76,10 @@
   
   function disconnect()
   {
+  }
+  
+  public function getSelectOptions(){
+    return implode($this->selectOptions);
   }
   
   public function getAll(){
@@ -444,7 +450,7 @@
     {
       foreach($this->foreignFields as $key=>$values)
       {
-		$m = "{$values['model']}";  
+        $m = "{$values['model']}";  
 		  
         $model = new $m;
         
