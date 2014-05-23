@@ -10,5 +10,15 @@
   <body>
 	  <div id="wrapper">
 	  <div id="header">
-		<h1><?=$data['title']?></h1>
+      <h1><?=$data['title']?></h1>
 	  </div>
+    <div id="menu">
+      <ul>
+        <li><a href="/">Search</a></li>
+        <li><a href="/track/">Tracks</a></li>
+        <li><a href="/artist/">Artists</a></li>
+        <li><a href="/label/">Labels</a></li>
+        <li><a href="/user/">Users</a></li>
+        <li><a href="/about/">About</a></li>
+      </ul>
+    </div>
